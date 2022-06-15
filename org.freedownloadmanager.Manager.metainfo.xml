@@ -3,14 +3,14 @@
   <id>org.freedownloadmanager.Manager</id>
   <launchable type="desktop-id">org.freedownloadmanager.Manager.desktop</launchable>
   <name>Free Download Manager</name>
-  <developer_name>FreeDownloadManager.org</developer_name>
+  <developer_name>FreeDownloadManager Team</developer_name>
   <summary>FDM is a powerful modern download accelerator and organizer.</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>LicenseRef-propietary</project_license>
+  <project_license>Propietary</project_license>
   <url type="homepage">https://www.freedownloadmanager.org/</url>
   <description>
     <p>
-    FDM is a powerful modern cross-platform download accelerator and organizer for Windows, Mac, Linux>
+    FDM is a powerful modern cross-platform download accelerator and organizer for Windows, Mac and Linux
    </p>
    <p>NOTE: This wrapper is not verified by, affiliated with, or supported by FreeDownloadManager Team.</p>
    </description>

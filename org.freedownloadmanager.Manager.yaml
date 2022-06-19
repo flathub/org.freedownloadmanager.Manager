@@ -87,10 +87,3 @@ modules:
         filename: freedownloadmanager.deb
         size: 35310836
         only-arches: [x86_64]
-        x-checker-data:
-          type: debian-repo
-          root: https://dn3.freedownloadmanager.org/6/latest
-          dist: stable
-          component: main
-          package-name: freedownloadmanager
-          is-main-source: true

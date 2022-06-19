@@ -1,6 +1,6 @@
 # org.freedownloadmanager.Manager
 
-## Troubleshooting
+## Not work
 
 ### Browser Integration
 

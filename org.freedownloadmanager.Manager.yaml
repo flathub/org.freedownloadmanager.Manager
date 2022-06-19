@@ -16,7 +16,10 @@ finish-args:
   - --share=network
   - --device=dri
   - --filesystem=xdg-download
-
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.indicator.application
+  - --talk-name=com.canonical.Unity.LauncherEntry
 modules:
   - name: boost
     buildsystem: simple
@@ -50,7 +53,10 @@ modules:
       - install -Dm 755 apply_extra.sh /app/bin/apply_extra
       - install -Dm 644 -t /app/share/metainfo org.freedownloadmanager.Manager.metainfo.xml
       - install -Dm 644 -t /app/share/applications org.freedownloadmanager.Manager.desktop
-      - install -Dm 644 -t /app/share/icons/hicolor/256x256/apps org.freedownloadmanager.Manager.png
+      - |
+        for icon in 128 256; do
+          install -Dm 644 org.freedownloadmanager.Manager-$icon.png /app/share/icons/hicolor/${icon}x${icon}/apps/org.freedownloadmanager.Manager.png
+        done
       - install -Dm 755 fdm.sh /app/bin/fdm 
       - install -d /app/lib/ffmpeg
       # For extra-data to be able to extract the .deb
@@ -68,10 +74,12 @@ modules:
         path: org.freedownloadmanager.Manager.desktop
       
       - type: file
-        path: org.freedownloadmanager.Manager.png
-      
-      - type: file
         path: org.freedownloadmanager.Manager.metainfo.xml
+
+      - type: file
+        path: icons/org.freedownloadmanager.Manager-128.png
+      - type: file
+        path: icons/org.freedownloadmanager.Manager-256.png
 
       - type: extra-data
         url: https://dn3.freedownloadmanager.org/6/latest/freedownloadmanager.deb
@@ -79,4 +87,10 @@ modules:
         filename: freedownloadmanager.deb
         size: 35310836
         only-arches: [x86_64]
-
+        x-checker-data:
+          type: debian-repo
+          root: https://dn3.freedownloadmanager.org/6/latest
+          dist: stable
+          component: main
+          package-name: freedownloadmanager
+          is-main-source: true

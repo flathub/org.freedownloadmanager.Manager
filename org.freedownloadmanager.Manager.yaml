@@ -15,11 +15,11 @@ finish-args:
   - --share=ipc
   - --share=network
   - --device=dri
-  - --filesystem=xdg-download
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=com.canonical.AppMenu.Registrar
   - --talk-name=com.canonical.indicator.application
   - --talk-name=com.canonical.Unity.LauncherEntry
+  - --filesystem=xdg-download
 modules:
   - name: boost
     buildsystem: simple

@@ -83,8 +83,8 @@ modules:
         path: icons/org.freedownloadmanager.Manager-256.png
 
       - type: extra-data
-        url: https://dn3.freedownloadmanager.org/6/latest/freedownloadmanager.deb
-        sha256: 164a11bc5ff634e74f902c6334d159f608cdf45c037a0a3497dd1236bbd346c5
+        url: https://files2.freedownloadmanager.org/6/latest/freedownloadmanager.deb
+        sha256: aef9ed9c4e9d351cb0e0a558fa8286d69be7d6d19f934bba6ed584c95ddd0535
         filename: freedownloadmanager.deb
-        size: 40855092
+        size: 40997736
         only-arches: [x86_64]

@@ -11,7 +11,8 @@ command: fdm
 tags:
   - proprietary
 finish-args:
-  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
   - --share=ipc
   - --share=network
   - --device=dri
@@ -19,6 +20,7 @@ finish-args:
   - --talk-name=com.canonical.AppMenu.Registrar
   - --talk-name=com.canonical.indicator.application
   - --talk-name=com.canonical.Unity.LauncherEntry
+  - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-download
 modules:
   - name: boost

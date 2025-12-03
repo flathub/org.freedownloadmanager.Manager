@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>org.freedownloadmanager.Manager</id>
-  <launchable type="desktop-id">org.freedownloadmanager.Manager.desktop</launchable>
+  <id>org.freedownloadmanager.fdm</id>
+  <launchable type="desktop-id">org.freedownloadmanager.fdm.desktop</launchable>
   <name>Free Download Manager</name>
   <developer_name>FreeDownloadManager Team</developer_name>
   <summary>FDM is a powerful modern download accelerator and organizer.</summary>
@@ -20,11 +20,9 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="6.17.0.4792" date="2022-08-18"/>
-    <release version="6.16.2.4586" date="2022-05-16"/>
+    <release version="6.30.3" date="2025-11-19"/>
   </releases>
   <content_rating type="oars-1.1">
   </content_rating>
-  <update_contact>dansitodev@gmail.com</update_contact>
-  </component>
-
+  <update_contact>support@freedownloadmanager.org</update_contact>
+</component>

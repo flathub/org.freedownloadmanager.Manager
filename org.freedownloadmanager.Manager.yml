@@ -1,0 +1,157 @@
+id: org.freedownloadmanager.fdm
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+add-extensions:
+  org.freedesktop.Platform.ffmpeg-full:
+    directory: lib/ffmpeg
+    version: '25.08'
+    add-ld-path: .
+command: fdm
+tags:
+  - proprietary
+separate-locales: false
+environment:
+  LD_LIBRARY_PATH: /app/lib:$LD_LIBRARY_PATH
+
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.indicator.application
+  - --talk-name=com.canonical.Unity.LauncherEntry
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-download
+  - --env=LD_LIBRARY_PATH=/app/lib:/app/extra/usr/lib:/app/extra/usr/lib/x86_64-linux-gnu
+
+modules:
+  - name: krb5-libs
+    buildsystem: simple
+    build-commands:
+      - |
+        set -e
+        mkdir -p /app/lib
+
+        for deb in *.deb; do
+          echo ">>> Распаковываю $deb"
+          tmpdir="$(mktemp -d)"
+          (
+            cd "$tmpdir"
+
+            ar x "$OLDPWD/$deb"
+            bsdtar -xf data.tar.* -C "$tmpdir"
+
+            for dir in \
+                "$tmpdir/usr/lib" \
+                "$tmpdir/usr/lib/x86_64-linux-gnu" \
+                "$tmpdir/lib" \
+                "$tmpdir/lib/x86_64-linux-gnu"; do
+
+              if [ -d "$dir" ]; then
+                echo ">>> копирую из $dir"
+                find "$dir" -name 'lib*.so*' -exec cp -av '{}' /app/lib/ \; || true
+              fi
+            done
+          )
+          rm -rf "$tmpdir"
+        done
+
+    sources:
+      - type: file
+        url: https://deb.debian.org/debian/pool/main/k/krb5/libgssapi-krb5-2_1.20.1-2+deb12u4_amd64.deb
+        sha256: ae20a9d90d0998ccb062a42739c8c5c725579e2d3f44fbd16b026e336b4543bb
+
+      - type: file
+        url: https://deb.debian.org/debian/pool/main/k/krb5/libkrb5-3_1.20.1-2+deb12u4_amd64.deb
+        sha256: af14ab652a7e8579c67c846dd95b987a4332c05165c8eec9790028f5aea6c2b0
+
+      - type: file
+        url: https://deb.debian.org/debian/pool/main/k/krb5/libk5crypto3_1.20.1-2+deb12u4_amd64.deb
+        sha256: b921355ee030582117aadd95a9f08de341867921a277803ae7e520be2ac9786d
+
+      - type: file
+        url: https://deb.debian.org/debian/pool/main/k/krb5/libkrb5support0_1.20.1-2+deb12u4_amd64.deb
+        sha256: 5e7fac690530a3e16c0a6707d8262d869c23248eac72daee3eb7c40982c3ddfe
+
+      - type: file
+        url: https://deb.debian.org/debian/pool/main/e/e2fsprogs/libcom-err2_1.47.2-3~bpo12+1_amd64.deb
+        sha256: 616bb3f52aad7d918e27250d8042dd8b7868a66724083b40a04a9436471799a9
+
+      - type: file
+        url: https://deb.debian.org/debian/pool/main/k/keyutils/libkeyutils1_1.6.3-2_amd64.deb
+        sha256: cfac89e6a7a54ff3c6a4f843310e25efeddaa771baeae470bd98bd588c373563
+
+      - type: file
+        url: https://ftp.debian.org/debian/pool/main/x/xcb-util-cursor/libxcb-cursor0_0.1.5-1_amd64.deb
+        sha256: e0c77e6e96843581ff2668dc9a10f676be0e78209ef198e98646184858efe164
+
+
+  - name: fdm
+    buildsystem: simple
+    build-commands:   
+      # set scripts
+      - mkdir -p /app/lib
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fdm-wrapper.sh /app/bin/fdm
+      - install -d /app/lib/ffmpeg
+
+      # set metadata
+      - install -Dm644 "${FLATPAK_ID}.desktop"  "/app/share/applications/${FLATPAK_ID}.desktop"
+      - install -Dm644 "${FLATPAK_ID}.metainfo.xml"  "/app/share/metainfo/${FLATPAK_ID}.metainfo.xml"
+
+      # put an icon
+      - install -Dm644 org.freedownloadmanager.fdm.png  "/app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.png"
+      - install -Dm 755 /{usr,app}/bin/ar
+      - cp /usr/lib/$(gcc --print-multiarch)/libbfd-*.so /app/lib
+      - cp -a /usr/lib/$(gcc --print-multiarch)/libsframe.so* ${FLATPAK_DEST}/lib
+
+    sources:
+      # --------- extra-data: deb is downloaded DURING INSTALLATION, not during compilation ---------
+      - type: extra-data
+        only-arches:
+          - x86_64
+        filename: freedownloadmanager.deb
+        url: https://files2.freedownloadmanager.org/6/latest/freedownloadmanager.deb
+        sha256: c659566a42715c4957275d2f9b2c17b6b73f1be38eec900bfbe31243363b7a09
+        size: 43837212
+
+
+      # --------- script for unpacking deb and extracting the binary  ---------
+      - type: script
+        dest-filename: apply_extra.sh
+        commands:
+          - 'set -euo pipefail'
+          - 'DEST="${FLATPAK_DEST:-/app}/extra"'
+          - 'DEB="$DEST/freedownloadmanager.deb"'
+          - 'mkdir -p "$DEST"'
+          - 'TMP="$(mktemp -d)"'
+          - 'cd "$TMP"'
+          # find and unpack data.tar.*
+          - 'ar x "$DEB"'
+          - 'if   [ -f data.tar.zst ]; then tar --zstd -xf data.tar.zst -C "$DEST";'
+          - 'elif [ -f data.tar.xz  ]; then tar -xJf  data.tar.xz  -C "$DEST";'
+          - 'elif [ -f data.tar.gz  ]; then tar -xzf  data.tar.gz  -C "$DEST";'
+          - 'else echo "Unknown data.tar.* in deb" >&2; exit 1; fi'
+          - 'rm -rf "$TMP"'
+
+      # ---------  wrapper: launches /app/bin/fdm.real ---------
+      - type: script
+        dest-filename: fdm-wrapper.sh
+        commands:
+          - 'set -euo pipefail'
+          - 'exec /app/extra/opt/freedownloadmanager/fdm "$@"'
+
+
+      - type: file
+        path: org.freedownloadmanager.fdm.desktop
+
+      - type: file
+        path: org.freedownloadmanager.fdm.metainfo.xml
+
+      - type: file
+        path: org.freedownloadmanager.fdm.png
+

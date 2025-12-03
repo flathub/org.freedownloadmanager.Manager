@@ -1,4 +1,4 @@
-id: org.freedownloadmanager.Manager
+id: org.freedownloadmanager.fdm
 runtime: org.freedesktop.Platform
 runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
@@ -11,6 +11,8 @@ command: fdm
 tags:
   - proprietary
 separate-locales: false
+environment:
+  LD_LIBRARY_PATH: /app/lib:$LD_LIBRARY_PATH
 
 finish-args:
   - --socket=wayland
@@ -35,7 +37,7 @@ modules:
         mkdir -p /app/lib
 
         for deb in *.deb; do
-          echo ">>> Unpacking $deb"
+          echo ">>> Распаковываю $deb"
           tmpdir="$(mktemp -d)"
           (
             cd "$tmpdir"
@@ -50,7 +52,7 @@ modules:
                 "$tmpdir/lib/x86_64-linux-gnu"; do
 
               if [ -d "$dir" ]; then
-                echo ">>> Copy from  $dir"
+                echo ">>> копирую из $dir"
                 find "$dir" -name 'lib*.so*' -exec cp -av '{}' /app/lib/ \; || true
               fi
             done

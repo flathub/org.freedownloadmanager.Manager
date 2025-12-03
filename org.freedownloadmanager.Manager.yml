@@ -1,4 +1,4 @@
-id: org.freedownloadmanager.fdm
+id: org.freedownloadmanager.Manager
 runtime: org.freedesktop.Platform
 runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
@@ -11,8 +11,6 @@ command: fdm
 tags:
   - proprietary
 separate-locales: false
-environment:
-  LD_LIBRARY_PATH: /app/lib:$LD_LIBRARY_PATH
 
 finish-args:
   - --socket=wayland
@@ -104,7 +102,7 @@ modules:
       - install -Dm644 "${FLATPAK_ID}.metainfo.xml"  "/app/share/metainfo/${FLATPAK_ID}.metainfo.xml"
 
       # put an icon
-      - install -Dm644 org.freedownloadmanager.Manager.png  "/app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.png"
+      - install -Dm644 org.freedownloadmanager.Manager.svg  /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
       - install -Dm 755 /{usr,app}/bin/ar
       - cp /usr/lib/$(gcc --print-multiarch)/libbfd-*.so /app/lib
       - cp -a /usr/lib/$(gcc --print-multiarch)/libsframe.so* ${FLATPAK_DEST}/lib
@@ -153,5 +151,5 @@ modules:
         path: org.freedownloadmanager.Manager.metainfo.xml
 
       - type: file
-        path: org.freedownloadmanager.Manager.png
+        path: org.freedownloadmanager.Manager.svg
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>org.freedownloadmanager.fdm</id>
+  <id>org.freedownloadmanager.Manager</id>
   <launchable type="desktop-id">org.freedownloadmanager.Manager.desktop</launchable>
   <name>Free Download Manager</name>
   <developer_name>FreeDownloadManager Team</developer_name>
@@ -15,8 +15,9 @@
    <p>NOTE: This wrapper is not verified by, affiliated with, or supported by FreeDownloadManager Team.</p>
    </description>
    <screenshots>
-    <screenshot type="default">
-      <image>https://www.freedownloadmanager.org/public/img/screen_linux.png</image>
+     <screenshot type="default">
+       <image>https://www.freedownloadmanager.org/public/img/screen_linux.png</image>
+       <caption>Main window</caption>
     </screenshot>
   </screenshots>
   <releases>

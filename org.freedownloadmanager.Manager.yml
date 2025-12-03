@@ -11,8 +11,6 @@ command: fdm
 tags:
   - proprietary
 separate-locales: false
-environment:
-  LD_LIBRARY_PATH: /app/lib:$LD_LIBRARY_PATH
 
 finish-args:
   - --socket=wayland

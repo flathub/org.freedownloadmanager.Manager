@@ -2,7 +2,7 @@
 Name=Free Download Manager
 Comment=Powerful download accelerator and organizer
 Exec=fdm %u
-Icon=org.freedownloadmanager.fdm
+Icon=org.freedownloadmanager.Manager
 Terminal=false
 Type=Application
 Categories=Network;FileTransfer;Utility;

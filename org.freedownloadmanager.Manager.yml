@@ -1,4 +1,4 @@
-id: org.freedownloadmanager.fdm
+id: org.freedownloadmanager.Manager
 runtime: org.freedesktop.Platform
 runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
@@ -37,7 +37,7 @@ modules:
         mkdir -p /app/lib
 
         for deb in *.deb; do
-          echo ">>> Распаковываю $deb"
+          echo ">>> Unpacking $deb"
           tmpdir="$(mktemp -d)"
           (
             cd "$tmpdir"
@@ -52,7 +52,7 @@ modules:
                 "$tmpdir/lib/x86_64-linux-gnu"; do
 
               if [ -d "$dir" ]; then
-                echo ">>> копирую из $dir"
+                echo ">>> Copy from  $dir"
                 find "$dir" -name 'lib*.so*' -exec cp -av '{}' /app/lib/ \; || true
               fi
             done
@@ -104,7 +104,7 @@ modules:
       - install -Dm644 "${FLATPAK_ID}.metainfo.xml"  "/app/share/metainfo/${FLATPAK_ID}.metainfo.xml"
 
       # put an icon
-      - install -Dm644 org.freedownloadmanager.fdm.png  "/app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.png"
+      - install -Dm644 org.freedownloadmanager.Manager.png  "/app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.png"
       - install -Dm 755 /{usr,app}/bin/ar
       - cp /usr/lib/$(gcc --print-multiarch)/libbfd-*.so /app/lib
       - cp -a /usr/lib/$(gcc --print-multiarch)/libsframe.so* ${FLATPAK_DEST}/lib
@@ -147,11 +147,11 @@ modules:
 
 
       - type: file
-        path: org.freedownloadmanager.fdm.desktop
+        path: org.freedownloadmanager.Manager.desktop
 
       - type: file
-        path: org.freedownloadmanager.fdm.metainfo.xml
+        path: org.freedownloadmanager.Manager.metainfo.xml
 
       - type: file
-        path: org.freedownloadmanager.fdm.png
+        path: org.freedownloadmanager.Manager.png
 

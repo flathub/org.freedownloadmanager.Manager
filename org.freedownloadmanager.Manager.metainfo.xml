@@ -15,16 +15,15 @@
    <p>NOTE: This wrapper is not verified by, affiliated with, or supported by FreeDownloadManager Team.</p>
    </description>
    <screenshots>
-    <screenshot type="default">
-      <image>https://www.freedownloadmanager.org/public/img/screen_linux.png</image>
+     <screenshot type="default">
+       <image>https://www.freedownloadmanager.org/public/img/screen_linux.png</image>
+       <caption>Main window</caption>
     </screenshot>
   </screenshots>
   <releases>
-    <release version="6.17.0.4792" date="2022-08-18"/>
-    <release version="6.16.2.4586" date="2022-05-16"/>
+    <release version="6.30.3" date="2025-11-19"/>
   </releases>
   <content_rating type="oars-1.1">
   </content_rating>
-  <update_contact>dansitodev@gmail.com</update_contact>
-  </component>
-
+  <update_contact>support@freedownloadmanager.org</update_contact>
+</component>

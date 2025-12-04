@@ -1,4 +1,3 @@
 {
-  "only-arches": ["x86_64"],
-  "end-of-life": "This application is no longer maintained on Flathub. Please consider switching to an official installation method https://www.freedownloadmanager.org/" 
+  "only-arches": ["x86_64"]
 }

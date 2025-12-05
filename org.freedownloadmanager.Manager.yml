@@ -2,11 +2,6 @@ id: org.freedownloadmanager.Manager
 runtime: org.freedesktop.Platform
 runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
-add-extensions:
-  org.freedesktop.Platform.ffmpeg-full:
-    directory: lib/ffmpeg
-    version: '25.08'
-    add-ld-path: .
 command: fdm
 tags:
   - proprietary
@@ -93,9 +88,7 @@ modules:
     build-commands:   
       # set scripts
       - mkdir -p /app/lib
-      - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 fdm-wrapper.sh /app/bin/fdm
-      - install -d /app/lib/ffmpeg
 
       # set metadata
       - install -Dm644 "${FLATPAK_ID}.desktop"  "/app/share/applications/${FLATPAK_ID}.desktop"
@@ -118,24 +111,6 @@ modules:
         size: 43837212
 
 
-      # --------- script for unpacking deb and extracting the binary  ---------
-      - type: script
-        dest-filename: apply_extra.sh
-        commands:
-          - 'set -euo pipefail'
-          - 'DEST="${FLATPAK_DEST:-/app}/extra"'
-          - 'DEB="$DEST/freedownloadmanager.deb"'
-          - 'mkdir -p "$DEST"'
-          - 'TMP="$(mktemp -d)"'
-          - 'cd "$TMP"'
-          # find and unpack data.tar.*
-          - 'ar x "$DEB"'
-          - 'if   [ -f data.tar.zst ]; then tar --zstd -xf data.tar.zst -C "$DEST";'
-          - 'elif [ -f data.tar.xz  ]; then tar -xJf  data.tar.xz  -C "$DEST";'
-          - 'elif [ -f data.tar.gz  ]; then tar -xzf  data.tar.gz  -C "$DEST";'
-          - 'else echo "Unknown data.tar.* in deb" >&2; exit 1; fi'
-          - 'rm -rf "$TMP"'
-
       # ---------  wrapper: launches /app/bin/fdm.real ---------
       - type: script
         dest-filename: fdm-wrapper.sh
@@ -152,4 +127,5 @@ modules:
 
       - type: file
         path: org.freedownloadmanager.Manager.svg
+
 

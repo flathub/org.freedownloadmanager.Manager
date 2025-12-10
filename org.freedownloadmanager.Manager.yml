@@ -3,9 +3,9 @@ runtime: org.freedesktop.Platform
 runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
 command: fdm
-separate-locales: false
 tags:
   - proprietary
+separate-locales: false
 
 finish-args:
   - --socket=wayland
@@ -13,91 +13,119 @@ finish-args:
   - --share=ipc
   - --share=network
   - --device=dri
-  - --filesystem=xdg-download
   - --talk-name=org.freedesktop.Notifications
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.indicator.application
+  - --talk-name=com.canonical.Unity.LauncherEntry
   - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-download
+  - --env=LD_LIBRARY_PATH=/app/lib:/app/extra/usr/lib:/app/extra/usr/lib/x86_64-linux-gnu
 
 modules:
-
-  # ---- kerbreros/krb5 libs ----
   - name: krb5-libs
     buildsystem: simple
     build-commands:
       - |
         set -e
         mkdir -p /app/lib
+
         for deb in *.deb; do
-          echo ">>> Unpack $deb"
-          tmp=$(mktemp -d)
+          echo ">>> Распаковываю $deb"
+          tmpdir="$(mktemp -d)"
           (
-            cd "$tmp"
+            cd "$tmpdir"
+
             ar x "$OLDPWD/$deb"
-            bsdtar -xf data.tar.* -C "$tmp"
-            for d in "$tmp/usr/lib" "$tmp/usr/lib/x86_64-linux-gnu" "$tmp/lib" "$tmp/lib/x86_64-linux-gnu"; do
-              if [ -d "$d" ]; then
-                cp -av "$d"/lib*.so* /app/lib/ 2>/dev/null || true
+            bsdtar -xf data.tar.* -C "$tmpdir"
+
+            for dir in \
+                "$tmpdir/usr/lib" \
+                "$tmpdir/usr/lib/x86_64-linux-gnu" \
+                "$tmpdir/lib" \
+                "$tmpdir/lib/x86_64-linux-gnu"; do
+
+              if [ -d "$dir" ]; then
+                echo ">>> копирую из $dir"
+                find "$dir" -name 'lib*.so*' -exec cp -av '{}' /app/lib/ \; || true
               fi
             done
           )
-          rm -rf "$tmp"
+          rm -rf "$tmpdir"
         done
+
     sources:
       - type: file
         url: https://deb.debian.org/debian/pool/main/k/krb5/libgssapi-krb5-2_1.20.1-2+deb12u4_amd64.deb
         sha256: ae20a9d90d0998ccb062a42739c8c5c725579e2d3f44fbd16b026e336b4543bb
+
       - type: file
         url: https://deb.debian.org/debian/pool/main/k/krb5/libkrb5-3_1.20.1-2+deb12u4_amd64.deb
         sha256: af14ab652a7e8579c67c846dd95b987a4332c05165c8eec9790028f5aea6c2b0
+
       - type: file
         url: https://deb.debian.org/debian/pool/main/k/krb5/libk5crypto3_1.20.1-2+deb12u4_amd64.deb
         sha256: b921355ee030582117aadd95a9f08de341867921a277803ae7e520be2ac9786d
+
       - type: file
         url: https://deb.debian.org/debian/pool/main/k/krb5/libkrb5support0_1.20.1-2+deb12u4_amd64.deb
         sha256: 5e7fac690530a3e16c0a6707d8262d869c23248eac72daee3eb7c40982c3ddfe
+
       - type: file
         url: https://deb.debian.org/debian/pool/main/e/e2fsprogs/libcom-err2_1.47.2-3~bpo12+1_amd64.deb
         sha256: 616bb3f52aad7d918e27250d8042dd8b7868a66724083b40a04a9436471799a9
+
       - type: file
         url: https://deb.debian.org/debian/pool/main/k/keyutils/libkeyutils1_1.6.3-2_amd64.deb
         sha256: cfac89e6a7a54ff3c6a4f843310e25efeddaa771baeae470bd98bd588c373563
+
       - type: file
         url: https://ftp.debian.org/debian/pool/main/x/xcb-util-cursor/libxcb-cursor0_0.1.5-1_amd64.deb
         sha256: e0c77e6e96843581ff2668dc9a10f676be0e78209ef198e98646184858efe164
 
 
-  # ---- FDM main module ----
   - name: fdm
     buildsystem: simple
-    build-commands:
-      - |
-        mkdir -p /app/opt /app/bin
-        tmp=$(mktemp -d)
-        cd "$tmp"
-        ar x "$OLDPWD/freedownloadmanager.deb"
-        bsdtar -xf data.tar.* -C "$tmp"
-        cp -a "$tmp/opt" /app/
-        install -Dm755 fdm-wrapper.sh /app/bin/fdm
+    build-commands:   
+      # set scripts
+      - mkdir -p /app/lib
+      - install -Dm755 fdm-wrapper.sh /app/bin/fdm
 
-      - install -Dm644 org.freedownloadmanager.Manager.desktop \
-          /app/share/applications/org.freedownloadmanager.Manager.desktop
-      - install -Dm644 org.freedownloadmanager.Manager.metainfo.xml \
-          /app/share/metainfo/org.freedownloadmanager.Manager.metainfo.xml
-      - install -Dm644 org.freedownloadmanager.Manager.svg \
-          /app/share/icons/hicolor/scalable/apps/org.freedownloadmanager.Manager.svg
+      # set metadata
+      - install -Dm644 "${FLATPAK_ID}.desktop"  "/app/share/applications/${FLATPAK_ID}.desktop"
+      - install -Dm644 "${FLATPAK_ID}.metainfo.xml"  "/app/share/metainfo/${FLATPAK_ID}.metainfo.xml"
+
+      # put an icon
+      - install -Dm644 org.freedownloadmanager.Manager.svg  /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - install -Dm 755 /{usr,app}/bin/ar
+      - cp /usr/lib/$(gcc --print-multiarch)/libbfd-*.so /app/lib
+      - cp -a /usr/lib/$(gcc --print-multiarch)/libsframe.so* ${FLATPAK_DEST}/lib
 
     sources:
-      - type: file
-        only-arches: [ x86_64 ]
-        dest-filename: freedownloadmanager.deb
+      # --------- extra-data: deb is downloaded DURING INSTALLATION, not during compilation ---------
+      - type: extra-data
+        only-arches:
+          - x86_64
+        filename: freedownloadmanager.deb
         url: https://files2.freedownloadmanager.org/6/latest/freedownloadmanager.deb
         sha256: c659566a42715c4957275d2f9b2c17b6b73f1be38eec900bfbe31243363b7a09
+        size: 43837212
+
+
+      # ---------  wrapper: launches /app/bin/fdm.real ---------
+      - type: script
+        dest-filename: fdm-wrapper.sh
+        commands:
+          - 'set -euo pipefail'
+          - 'exec /app/extra/opt/freedownloadmanager/fdm "$@"'
+
 
       - type: file
-        path: fdm-wrapper.sh
-      - type: file
         path: org.freedownloadmanager.Manager.desktop
+
       - type: file
         path: org.freedownloadmanager.Manager.metainfo.xml
+
       - type: file
         path: org.freedownloadmanager.Manager.svg
+
 

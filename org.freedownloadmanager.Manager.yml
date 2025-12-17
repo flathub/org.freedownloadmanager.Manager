@@ -101,7 +101,7 @@ modules:
       - cp -a /usr/lib/$(gcc --print-multiarch)/libsframe.so* ${FLATPAK_DEST}/lib
 
     sources:
-      # --------- extra-data: deb is downloaded DURING INSTALLATION, not during compilation ---------
+      # --------- extra-data: deb is downloaded DURING INSTALLATION, not during compilation -------
       - type: extra-data
         only-arches:
           - x86_64
@@ -111,7 +111,7 @@ modules:
         size: 43837212
 
 
-      # ---------  wrapper: launches /app/bin/fdm.real ---------
+      # ---------  wrapper: launches /app/bin/fdm.real --------
       - type: script
         dest-filename: fdm-wrapper.sh
         commands:

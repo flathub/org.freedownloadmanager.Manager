@@ -12,11 +12,10 @@
     <p>
     FDM is a powerful modern cross-platform download accelerator and organizer for Windows, Mac and Linux
    </p>
-   <p>NOTE: This wrapper is not verified by, affiliated with, or supported by FreeDownloadManager Team.</p>
    </description>
    <screenshots>
      <screenshot type="default">
-       <image>https://www.freedownloadmanager.org/public/img/screen_linux.png</image>
+       <image>https://www.freedownloadmanager.org/public/img/v2/scr_win_new.png</image>
        <caption>Main window</caption>
     </screenshot>
   </screenshots>

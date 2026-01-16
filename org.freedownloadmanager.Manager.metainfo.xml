@@ -21,6 +21,14 @@
   </screenshots>
   <releases>
     <release version="6.32.0.6586" date="2026-01-01"/>
+       <description>
+           <ul>
+               <li>Improved add-ons support.</li>
+               <li>Improved system's color scheme detection.</li>
+               <li>Improved HTTP downloads support.</li>
+               <li>Minor improvements.</li>
+           </ul>
+       </description>
   </releases>
   <content_rating type="oars-1.1">
   </content_rating>

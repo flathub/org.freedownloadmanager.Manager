@@ -20,7 +20,7 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="6.32.0.6586" date="2026-01-01"/>
+    <release version="6.32.0.6586" date="2026-01-01">
        <description>
            <ul>
                <li>Improved add-ons support.</li>

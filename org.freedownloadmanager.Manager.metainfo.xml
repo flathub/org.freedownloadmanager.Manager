@@ -3,11 +3,11 @@
   <id>org.freedownloadmanager.Manager</id>
   <launchable type="desktop-id">org.freedownloadmanager.Manager.desktop</launchable>
   <name>Free Download Manager</name>
-  <developer_name>FreeDownloadManager Team</developer_name>
   <summary>FDM is a powerful modern download accelerator and organizer.</summary>
+  <developer_name>FreeDownloadManager Team</developer_name>
+  <url type="homepage">https://www.freedownloadmanager.org</url>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>LicenseRef-proprietary</project_license>
-  <url type="homepage">https://www.freedownloadmanager.org/</url>
   <description>
     <p>
     FDM is a powerful modern cross-platform download accelerator and organizer for Windows, Mac and Linux
@@ -15,12 +15,12 @@
    </description>
    <screenshots>
      <screenshot type="default">
-       <image>https://www.freedownloadmanager.org/public/img/v2/scr_win_new.png</image>
+       <image>https://freedownloadmanager.org/public/img/v2/scr_win_new.png</image>
        <caption>Main window</caption>
     </screenshot>
   </screenshots>
   <releases>
-    <release version="6.31.0.6549" date="2025-12-02"/>
+    <release version="6.32.0.6586" date="2026-01-01"/>
   </releases>
   <content_rating type="oars-1.1">
   </content_rating>

@@ -1,6 +1,6 @@
 id: org.freedownloadmanager.Manager
 runtime: org.freedesktop.Platform
-runtime-version: "25.08"
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: fdm
 tags:
@@ -85,7 +85,7 @@ modules:
 
   - name: fdm
     buildsystem: simple
-    build-commands:   
+    build-commands:
       # set scripts
       - mkdir -p /app/lib
       - install -Dm755 fdm-wrapper.sh /app/bin/fdm
@@ -115,8 +115,8 @@ modules:
       - type: script
         dest-filename: fdm-wrapper.sh
         commands:
-          - 'set -euo pipefail'
-          - 'exec /app/extra/opt/freedownloadmanager/fdm "$@"'
+          - set -euo pipefail
+          - exec /app/extra/opt/freedownloadmanager/fdm "$@"
 
 
       - type: file

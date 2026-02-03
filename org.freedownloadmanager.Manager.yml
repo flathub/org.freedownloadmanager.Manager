@@ -88,6 +88,7 @@ modules:
     build-commands:
       # set scripts
       - mkdir -p /app/lib
+      - install -Dm755 apply_extra /app/bin/apply_extra
       - install -Dm755 fdm-wrapper.sh /app/bin/fdm
 
       # set metadata
@@ -111,7 +112,15 @@ modules:
         size: 42036480
 
 
-      # ---------  wrapper: launches /app/bin/fdm.real --------
+      # ---------  apply_extra: unpacks the deb downloaded during installation --------
+      - type: script
+        dest-filename: apply_extra
+        commands:
+          - ar x freedownloadmanager.deb
+          - tar -xf data.tar.* --strip-components=1
+          - rm -f freedownloadmanager.deb control.tar.* data.tar.* debian-binary
+
+      # ---------  wrapper: launches /app/extra/opt/freedownloadmanager/fdm --------
       - type: script
         dest-filename: fdm-wrapper.sh
         commands:

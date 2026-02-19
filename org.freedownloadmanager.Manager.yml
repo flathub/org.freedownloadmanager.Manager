@@ -107,8 +107,8 @@ modules:
           - x86_64
         filename: freedownloadmanager.deb
         url: https://files2.freedownloadmanager.org/6/latest/freedownloadmanager.deb
-        sha256: f25b5a648ebd47ffa879d4da5fe5904c1da0bcadee6748fee3fb02991f442abd
-        size: 42148636
+        sha256: 862b7d46447f8057d4e16273ee5764a60dedb1def638aaebb59d717823acd772
+        size: 42153388
 
 
       # ---------  wrapper: launches /app/bin/fdm.real --------

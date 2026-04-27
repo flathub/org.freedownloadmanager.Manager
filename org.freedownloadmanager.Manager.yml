@@ -88,6 +88,7 @@ modules:
     build-commands:
       # set scripts
       - mkdir -p /app/lib
+      - install -Dm755 apply_extra /app/bin/apply_extra
       - install -Dm755 fdm-wrapper.sh /app/bin/fdm
 
       # set metadata

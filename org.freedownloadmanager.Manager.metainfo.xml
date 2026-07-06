@@ -20,10 +20,9 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="6.34.1.6907" date="2026-06-02">
+    <release version="6.34.2.6926" date="2026-07-03">
        <description>
            <ul>
-               <li>Improved M3U support.</li>
                <li>Minor interface improvements.</li>
                <li>Fixed: minor bugs.</li>
 

@@ -108,8 +108,8 @@ modules:
           - x86_64
         filename: freedownloadmanager.deb
         url: https://files2.freedownloadmanager.org/6/latest/freedownloadmanager.deb
-        sha256: b23ad7cd1dcc056c49cfb587410755eba75fc77b4285f5ea5f53ec8b693368a3
-        size: 41489676
+        sha256: af7f410a0049684e8582b1b2157795abb9e12d45fba3c25e522df000e56d0429
+        size: 41490320
 
 
       # ---------  apply_extra: unpacks the deb downloaded during installation --------

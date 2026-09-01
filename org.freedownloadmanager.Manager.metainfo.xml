@@ -23,9 +23,10 @@
     <release version="6.34.2.6926" date="2026-07-03">
        <description>
            <ul>
+               <li>Added a setting to pause slow downloads and let others go first.</li>
                <li>Minor interface improvements.</li>
+               <li>Fixed: bugs using mirrors.</li>
                <li>Fixed: minor bugs.</li>
-
            </ul>
        </description>
     </release>

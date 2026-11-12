@@ -126,8 +126,26 @@ modules:
       - type: script
         dest-filename: fdm-wrapper.sh
         commands:
-          - set -euo pipefail
-          - exec /app/extra/opt/freedownloadmanager/fdm "$@"
+          - |
+            set -euo pipefail
+
+            readonly chromium_origins=(
+                'chrome-extension://ahmpjcflkgiildlgicmcieglgoilbfdp/'
+                'chrome-extension://mdfcjfioplkdchnhcpcobaheocanedjg/'
+            )
+
+            readonly firefox_extensions=(
+                'fdm_ffext@freedownloadmanager.org'
+                'fdm_ffext2@freedownloadmanager.org'
+            )
+
+            if [[ -n "${1-}" && " ${chromium_origins[*]} " =~ $1 ]] ||
+                [[ -n "${2-}" && " ${firefox_extensions[*]} " =~ $2 ]]; then
+                exec /app/extra/opt/freedownloadmanager/wenativehost "$@"
+            else
+                exec /app/extra/opt/freedownloadmanager/fdm "$@"
+            fi
+            
 
 
 

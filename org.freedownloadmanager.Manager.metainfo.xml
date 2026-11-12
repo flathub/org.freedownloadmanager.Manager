@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component type="desktop">
+<component type="desktop-application">
   <id>org.freedownloadmanager.Manager</id>
   <launchable type="desktop-id">org.freedownloadmanager.Manager.desktop</launchable>
   <name>Free Download Manager</name>
@@ -9,7 +9,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>LicenseRef-proprietary</project_license>
   <description>
-    <p>
+   <p>
     FDM is a powerful modern cross-platform download accelerator and organizer for Windows, Mac and Linux
    </p>
    </description>
